@@ -19,7 +19,7 @@ Always launches as bash, with all bundled tools available as pseudo-builtins.
 - `scripts/` - Helper scripts (cert generation, dev container)
 - `CMakeLists.txt` - Builds libbusyq.a (library) + busyq + busyq-scan
 - `CMakePresets.json` - Build presets (vcpkg toolchain, no-ssl/ssl variants)
-- `Dockerfile` - Multi-stage build (uses p120ph37/alpine-clang-vcpkg)
+- `Dockerfile` - Multi-stage build (uses ameriwether/alpine-clang-vcpkg)
 - `PLAN.md` - Roadmap for adding upstream GNU tool replacements
 
 ## Build
@@ -137,7 +137,7 @@ dev-stop           # tear down the container
 ```
 
 ### How it works
-The script launches a persistent `p120ph37/alpine-clang-vcpkg` container
+The script launches a persistent `ameriwether/alpine-clang-vcpkg` container
 with the project directory bind-mounted at `/src`. It handles:
 - Starting dockerd with sandbox-compatible flags (no iptables/bridge/overlayfs)
 - Forwarding proxy environment variables into the container
@@ -158,7 +158,7 @@ docker run -d --name busyq-dev \
   --network=host \
   -e "http_proxy=$http_proxy" -e "https_proxy=$https_proxy" \
   -v "$(pwd):/src" -w /src \
-  p120ph37/alpine-clang-vcpkg:latest sleep infinity
+  ameriwether/alpine-clang-vcpkg:latest sleep infinity
 
 # Fix DNS (sandbox environments may have empty /etc/resolv.conf)
 docker exec busyq-dev sh -c 'grep -q nameserver /etc/resolv.conf || echo "nameserver 8.8.8.8" > /etc/resolv.conf'

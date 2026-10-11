@@ -23,7 +23,7 @@
 # ============================================================
 # Stage 1: Build environment
 # ============================================================
-FROM p120ph37/alpine-clang-vcpkg:latest AS build
+FROM ameriwether/alpine-clang-vcpkg:latest AS build
 
 # LTO flags propagate through vcpkg dependency builds via the
 # EXTRA_* mechanism provided by alpine-clang-vcpkg

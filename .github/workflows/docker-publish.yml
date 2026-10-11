@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  DOCKERHUB_REPO: p120ph37/busyq
+  DOCKERHUB_REPO: ameriwether/busyq
 
 jobs:
   build:

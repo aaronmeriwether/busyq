@@ -7,17 +7,17 @@ Always launches as bash, with all bundled tools available as pseudo-builtins —
 ## Quick start
 
 ```dockerfile
-FROM p120ph37/busyq:latest
+FROM ameriwether/busyq:latest
 ENTRYPOINT ["/bin/busyq", "-c"]
 CMD ["echo hello world"]
 ```
 
 ```sh
 # Run directly
-docker run --rm p120ph37/busyq /bin/busyq -c 'echo "hello" | jq -Rn "[inputs]"'
+docker run --rm ameriwether/busyq /bin/busyq -c 'echo "hello" | jq -Rn "[inputs]"'
 
 # Interactive shell
-docker run --rm -it p120ph37/busyq /bin/busyq
+docker run --rm -it ameriwether/busyq /bin/busyq
 ```
 
 ## Available images
@@ -26,9 +26,9 @@ All images are multi-arch (`linux/amd64` + `linux/arm64`).
 
 | Image | Description |
 |-------|-------------|
-| `p120ph37/busyq:latest` | Full binary with SSL/TLS (mbedtls + embedded Mozilla CA bundle) |
-| `p120ph37/busyq:nossl` | Smaller binary without SSL support |
-| `p120ph37/busyq:custom` | Alpine-based build environment for creating minimal custom binaries |
+| `ameriwether/busyq:latest` | Full binary with SSL/TLS (mbedtls + embedded Mozilla CA bundle) |
+| `ameriwether/busyq:nossl` | Smaller binary without SSL support |
+| `ameriwether/busyq:custom` | Alpine-based build environment for creating minimal custom binaries |
 
 Version-pinned tags follow Alpine versioning: `3.23`, `3.23.3`, `3.23-nossl`, `3.23.3-nossl`, `3.23-custom`, `3.23.3-custom`.
 
@@ -37,7 +37,7 @@ Version-pinned tags follow Alpine versioning: `3.23`, `3.23.3`, `3.23-nossl`, `3
 The binary is fully static — just copy it:
 
 ```dockerfile
-FROM p120ph37/busyq:latest AS busyq
+FROM ameriwether/busyq:latest AS busyq
 
 FROM your-base-image
 COPY --from=busyq /busyq /bin/busyq
@@ -46,7 +46,7 @@ COPY --from=busyq /busyq /bin/busyq
 Or in a `FROM scratch` image:
 
 ```dockerfile
-FROM p120ph37/busyq:latest AS busyq
+FROM ameriwether/busyq:latest AS busyq
 
 FROM scratch
 COPY --from=busyq /busyq /bin/busyq
@@ -74,7 +74,7 @@ with no external dependencies — not even a shell:
 
 ```sh
 # Extract the binary
-docker run --rm p120ph37/busyq cat /busyq > busyq && chmod +x busyq
+docker run --rm ameriwether/busyq cat /busyq > busyq && chmod +x busyq
 
 # Create a self-contained script binary
 cat busyq myscript.sh > myapp && chmod +x myapp
@@ -86,21 +86,21 @@ cat busyq myscript.sh > myapp && chmod +x myapp
 
 ## Custom builds
 
-The `p120ph37/busyq:custom` image lets you build minimal busyq binaries containing only the tools your script needs. This dramatically reduces binary size by letting LTO strip unused code.
+The `ameriwether/busyq:custom` image lets you build minimal busyq binaries containing only the tools your script needs. This dramatically reduces binary size by letting LTO strip unused code.
 
 ### Automatic (scan + build)
 
 ```sh
 # Build a minimal binary for your script
-docker run --rm -i p120ph37/busyq:custom < myscript.sh > mybinary
+docker run --rm -i ameriwether/busyq:custom < myscript.sh > mybinary
 chmod +x mybinary
 
 # With embedded script overlay
-docker run --rm -i p120ph37/busyq:custom --embed < myscript.sh > mybinary
+docker run --rm -i ameriwether/busyq:custom --embed < myscript.sh > mybinary
 chmod +x mybinary
 
 # With extra applets not detected by scanning
-docker run --rm -i p120ph37/busyq:custom --applets curl,jq < myscript.sh > mybinary
+docker run --rm -i ameriwether/busyq:custom --applets curl,jq < myscript.sh > mybinary
 chmod +x mybinary
 ```
 
@@ -108,7 +108,7 @@ chmod +x mybinary
 
 ```sh
 # Build with specific applets only (no script scanning)
-docker run --rm p120ph37/busyq:custom --applets curl,jq,ls --no-script > mybinary
+docker run --rm ameriwether/busyq:custom --applets curl,jq,ls --no-script > mybinary
 chmod +x mybinary
 ```
 

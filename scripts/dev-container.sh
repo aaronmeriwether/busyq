@@ -2,7 +2,7 @@
 # dev-container.sh - Launch a development container for iterative busyq debugging
 #
 # Sets up a Docker daemon (if needed) and launches a persistent container
-# based on p120ph37/alpine-clang-vcpkg with the project mounted at /src.
+# based on ameriwether/alpine-clang-vcpkg with the project mounted at /src.
 #
 # Usage:
 #   source scripts/dev-container.sh   # set up env + define functions
@@ -19,7 +19,7 @@
 set -euo pipefail
 
 DEV_CONTAINER_NAME="${DEV_CONTAINER_NAME:-busyq-dev}"
-DEV_IMAGE="${DEV_IMAGE:-p120ph37/alpine-clang-vcpkg:latest}"
+DEV_IMAGE="${DEV_IMAGE:-ameriwether/alpine-clang-vcpkg:latest}"
 PROJECT_DIR="${PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 
 # ── Start Docker daemon ──────────────────────────────────────────────────
